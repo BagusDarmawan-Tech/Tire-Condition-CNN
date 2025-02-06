@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klasifikasi Ban</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+   
+</head>
+<body>
+    <div class="container">
+        <h1>Klasifikasi Ban Motor</h1>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <label for="file">Unggah gambar ban:</label>
+            <input type="file" name="file" id="file" required>
+            <button type="submit">Prediksi</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>Hasil Prediksi: {{ result }}</h2>
+            <img src="{{ image_url }}" alt="Uploaded Image">
+            <div class="suggestion">
+                {% if result == 'Layak (0 - 5 bulan)' %}
+                <h3>Saran:</h3>
+                <p>Ban masih sangat baru dan dalam kondisi optimal. Pastikan Anda tetap melakukan pemeriksaan rutin, seperti tekanan angin, untuk menjaga performa ban. Hindari beban berlebih agar usia ban lebih panjang.</p>
+                {% elif result == 'Layak (5 - 12 bulan)' %}
+                <h3>Saran:</h3>
+                <p>Kondisi ban masih layak digunakan. Perhatikan tanda-tanda keausan seperti ketebalan kembang ban atau retakan kecil. Lakukan rotasi ban jika memungkinkan untuk memperpanjang masa pakai.</p>
+                {% elif result == 'Layak (12 - 18 bulan)' %}
+                <h3>Saran:</h3>
+                <p>Ban masih dapat digunakan, tetapi lebih sering lakukan inspeksi, terutama sebelum perjalanan jauh. Periksa apakah permukaan ban mulai botak atau kembang ban sudah menipis. Lakukan penggantian jika mendekati batas minimal.</p>
+                {% elif result == 'Rawan (18 - 24 bulan)' %}
+                <h3>Saran:</h3>
+                <p>Ban berada dalam kondisi rawan, dan keselamatan berkendara bisa terpengaruh. Segera rencanakan penggantian ban, terutama jika sering berkendara di jalan basah atau beban berat. Hindari penggunaan di kecepatan tinggi untuk meminimalkan risiko kecelakaan.</p>
+                {% elif result == 'Tak Layak (lebih dari 24 bulan)' %}
+                <h3>Saran:</h3>
+                <p>Ban tidak aman untuk digunakan. Segera ganti dengan ban baru untuk mencegah risiko kecelakaan. Jangan gunakan ban ini, terutama dalam kondisi cuaca buruk atau di jalan licin, karena dapat mengakibatkan kehilangan kontrol kendaraan.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
